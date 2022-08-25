@@ -14,6 +14,11 @@ class CheatSheetTest {
 
     @Test
     void testRecord() {
-        Circle circle = new Circle(10.0);
+        var c1 = new Circle(10.0);
+        assertEquals(10.0, c1.radius());
+        assertEquals(Math.PI * 10 * 10, c1.area());
+
+        var c2 = new Circle(10.0);
+        assertEquals(c1, c2);
     }
 }
