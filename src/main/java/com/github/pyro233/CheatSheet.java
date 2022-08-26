@@ -2,7 +2,6 @@ package com.github.pyro233;
 
 /**
  * 1. text blocks (JDK 15)
- * 2. records (JDK 16)
  * @Author: tao.zhou
  * @Date: 2022/8/25 23:21
  */
