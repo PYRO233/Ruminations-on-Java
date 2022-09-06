@@ -18,7 +18,7 @@ public class CheatSheet {
     }
 
     @JDK17(name = "sealed classes")
-    public sealed abstract static class Shape permits Square, Rectangle {
+    public sealed abstract static class Shape permits Shape.Square, Shape.Rectangle {
         abstract double area();
 
         @JDK16(name = "Pattern Matching for instanceof")
@@ -29,31 +29,31 @@ public class CheatSheet {
             }
             return (shape instanceof Square);
         }
-    }
-    static final class Square extends Shape {
-        public final double side;
+        static final class Square extends Shape {
+            public final double side;
 
-        public Square(final double side) {
-            this.side = side;
+            public Square(final double side) {
+                this.side = side;
+            }
+
+            @Override
+            public double area() {
+                return side * side;
+            }
         }
+        public static final class Rectangle extends Shape {
+            public final double length;
+            public final double width;
 
-        @Override
-        public double area() {
-            return side * side;
-        }
-    }
-    public static final class Rectangle extends Shape {
-        public final double length;
-        public final double width;
+            public Rectangle(double length, double width) {
+                this.length = length;
+                this.width = width;
+            }
 
-        public Rectangle(double length, double width) {
-            this.length = length;
-            this.width = width;
-        }
-
-        @Override
-        public double area() {
-            return length * width;
+            @Override
+            public double area() {
+                return length * width;
+            }
         }
     }
 

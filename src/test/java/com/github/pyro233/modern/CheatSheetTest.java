@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.github.pyro233.modern.CheatSheet.*;
 
 import java.time.LocalDate;
-import java.time.Month;
 
 /**
  * @Author: tao.zhou
@@ -27,8 +26,8 @@ class CheatSheetTest {
 
     @Test
     void testSealedClass() {
-        Square square = new Square(10.0);
-        Rectangle rectangle = new Rectangle(10.0, 5.0);
+        Shape.Square square = new Shape.Square(10.0);
+        Shape.Rectangle rectangle = new Shape.Rectangle(10.0, 5.0);
         assertTrue(Shape.isSquare(square));
         assertFalse(Shape.isSquare(rectangle));
     }
