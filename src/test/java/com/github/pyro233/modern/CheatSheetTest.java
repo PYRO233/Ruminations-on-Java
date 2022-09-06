@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import com.github.pyro233.modern.CheatSheet.*;
 
+import java.time.LocalDate;
+import java.time.Month;
+
 /**
  * @Author: tao.zhou
  * @Date: 2022/8/25 23:23
@@ -28,5 +31,11 @@ class CheatSheetTest {
         Rectangle rectangle = new Rectangle(10.0, 5.0);
         assertTrue(Shape.isSquare(square));
         assertFalse(Shape.isSquare(rectangle));
+    }
+
+    @Test
+    public void testGetDaysInMonth() {
+        int daysInMonth = CheatSheet.getDaysInMonth(LocalDate.of(2022, 2, 1));
+        assertEquals(28, daysInMonth);
     }
 }

@@ -1,5 +1,8 @@
 package com.github.pyro233.modern;
 
+import java.time.LocalDate;
+import java.time.Month;
+
 /**
  * 1. text blocks (JDK 15)
  * @Author: tao.zhou
@@ -52,5 +55,20 @@ public class CheatSheet {
         public double area() {
             return length * width;
         }
+    }
+
+    @JDK14(name = "Switch Expressions")
+    public static int getDaysInMonth(LocalDate date) {
+        Month month = date.getMonth();
+        boolean leapYear = date.isLeapYear();
+        return switch (month) {
+            case JANUARY, MARCH, MAY, JULY, AUGUST, OCTOBER, DECEMBER -> 31;
+            case APRIL, JUNE, SEPTEMBER, NOVEMBER -> 30;
+            case FEBRUARY -> {
+                if (leapYear) yield 29;
+                else yield 28;
+            }
+            default -> throw new RuntimeException();
+        };
     }
 }
