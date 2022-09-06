@@ -1,9 +1,9 @@
-package com.github.pyro233;
+package com.github.pyro233.modern;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import com.github.pyro233.CheatSheet.Circle;
+import com.github.pyro233.modern.CheatSheet.*;
 
 /**
  * @Author: tao.zhou
@@ -20,5 +20,13 @@ class CheatSheetTest {
 
         var c2 = new Circle(10.0);
         assertEquals(c1, c2);
+    }
+
+    @Test
+    void testSealedClass() {
+        Square square = new Square(10.0);
+        Rectangle rectangle = new Rectangle(10.0, 5.0);
+        assertTrue(Shape.isSquare(square));
+        assertFalse(Shape.isSquare(rectangle));
     }
 }
