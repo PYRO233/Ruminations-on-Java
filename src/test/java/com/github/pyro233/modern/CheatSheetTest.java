@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.github.pyro233.modern.CheatSheet.*;
 
 import java.time.LocalDate;
+import java.util.concurrent.Flow.*;
+import java.util.concurrent.SubmissionPublisher;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: tao.zhou
@@ -36,5 +39,43 @@ class CheatSheetTest {
     public void testGetDaysInMonth() {
         int daysInMonth = CheatSheet.getDaysInMonth(LocalDate.of(2022, 2, 1));
         assertEquals(28, daysInMonth);
+    }
+
+
+    @JDK9(name = "Flow")
+    @Test
+    public void testTransform() throws InterruptedException {
+        SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>();
+        Transform<Integer, String> transform = new Transform<>(String::valueOf);
+        Subscriber<String> subscriber = new Subscriber<>() {
+            private Subscription subscription;
+            @Override
+            public void onSubscribe(final Subscription subscription) {
+                this.subscription = subscription;
+                this.subscription.request(1);
+            }
+
+            @Override
+            public void onNext(final String item) {
+                System.out.println("receive data: " + item);
+                this.subscription.request(1);
+            }
+
+            @Override
+            public void onError(final Throwable throwable) {
+                throwable.printStackTrace();
+                this.subscription.cancel();
+            }
+
+            @Override
+            public void onComplete() {
+                System.out.println("completed!");
+            }
+        };
+        publisher.subscribe(transform);
+        transform.subscribe(subscriber);
+        publisher.submit(8);
+        publisher.close();
+        TimeUnit.SECONDS.sleep(1);
     }
 }

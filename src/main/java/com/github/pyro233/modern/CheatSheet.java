@@ -2,6 +2,9 @@ package com.github.pyro233.modern;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.Flow.*;
+import java.util.concurrent.SubmissionPublisher;
+import java.util.function.Function;
 
 /**
  * 1. text blocks (JDK 15)
@@ -70,5 +73,39 @@ public class CheatSheet {
             }
             default -> throw new RuntimeException();
         };
+    }
+
+    @JDK9(name = "Flow")
+    public static class Transform<T, R> extends SubmissionPublisher<R> implements Processor<T, R> {
+
+        private Subscription subscription;
+        private Function<T, R> transform;
+
+        public Transform(final Function<T, R> transform) {
+            super();
+            this.transform = transform;
+        }
+
+        @Override
+        public void onSubscribe(final Subscription subscription) {
+            this.subscription = subscription;
+            subscription.request(1);
+        }
+
+        @Override
+        public void onNext(final T item) {
+            submit(transform.apply(item));
+            subscription.request(1);
+        }
+
+        @Override
+        public void onError(final Throwable throwable) {
+            closeExceptionally(throwable);
+        }
+
+        @Override
+        public void onComplete() {
+            close();
+        }
     }
 }
