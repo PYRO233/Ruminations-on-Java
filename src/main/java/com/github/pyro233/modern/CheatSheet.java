@@ -8,6 +8,9 @@ import java.util.function.Function;
 
 /**
  * 1. text blocks (JDK 15)
+ * 2. Pattern Matching for switch
+ * 3. Vector API
+ * 4. Foreign Function & Memory API
  * @Author: tao.zhou
  * @Date: 2022/8/25 23:21
  */
@@ -20,7 +23,7 @@ public class CheatSheet {
         }
     }
 
-    @JDK17(name = "sealed classes")
+    @JDK17(name = "sealed classes", desc = "封闭类的子类可查可数")
     public sealed abstract static class Shape permits Shape.Square, Shape.Rectangle {
         abstract double area();
 
