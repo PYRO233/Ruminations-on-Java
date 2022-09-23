@@ -12,9 +12,37 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class ArgsTest {
 
-    // TODO: Bool -l
-    // TODO: Integer -p 8080
+    @Test
+    public void should_set_boolean_option_to_true_if_flag_present() {
+        ArgsTest.BooleanOption option = Args.parse(ArgsTest.BooleanOption.class, "-l");
+        assertTrue(option.logging());
+    }
+
+    @Test
+    public void should_set_boolean_option_to_false_if_flag_not_present() {
+        ArgsTest.BooleanOption option = Args.parse(ArgsTest.BooleanOption.class);
+        assertFalse(option.logging());
+    }
+
+    static record BooleanOption(@Option("l") boolean logging) {}
+
+    @Test
+    public void should_parse_int_as_option_value() {
+        ArgsTest.IntOption option = Args.parse(ArgsTest.IntOption.class, "-p", "8080");
+        assertEquals(8080, option.port());
+    }
+
+    static record IntOption(@Option("p") int port) {}
+
     // TODO: String -d /usr/logs
+    @Test
+    public void should_get_string_as_option_value() {
+        ArgsTest.StringOption option = Args.parse(ArgsTest.StringOption.class, "-d", "/usr/logs");
+        assertEquals("/usr/logs", option.directory());
+    }
+
+    static record StringOption(@Option("d") String directory) {}
+
 
     // sad path:
     // TODO: Bool -l t
