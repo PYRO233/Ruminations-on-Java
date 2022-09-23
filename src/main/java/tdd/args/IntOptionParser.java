@@ -3,6 +3,7 @@ package tdd.args;
 import com.github.pyro233.tdd.args.Option;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @Author: tao.zhou
@@ -10,14 +11,20 @@ import java.util.List;
  */
 class IntOptionParser implements OptionParser {
 
+    Function<String, Object> valueParser = Integer::parseInt;
+
+    public IntOptionParser() {
+    }
+
+    public IntOptionParser(final Function<String, Object> valueParser) {
+        this.valueParser = valueParser;
+    }
+
     @Override
     public Object parse(final List<String> arguments, final Option option) {
         int index = arguments.indexOf("-" + option.value());
         String value = arguments.get(index + 1);
-        return parseValue(value);
+        return valueParser.apply(value);
     }
 
-    protected Object parseValue(final String value) {
-        return Integer.parseInt(value);
-    }
 }
