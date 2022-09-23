@@ -8,11 +8,10 @@ import java.util.List;
  * @Author: tao.zhou
  * @Date: 2022/9/23 17:16
  */
-class StringOptionParser implements OptionParser {
+class StringOptionParser extends IntOptionParser {
 
     @Override
-    public Object parse(final List<String> arguments, final Option option) {
-        int index = arguments.indexOf("-" + option.value());
-        return arguments.get(index + 1);
+    protected Object parseValue(final String value) {
+        return value;
     }
 }
