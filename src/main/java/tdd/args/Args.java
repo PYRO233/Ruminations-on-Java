@@ -1,12 +1,12 @@
 package tdd.args;
 
 import com.github.pyro233.tdd.args.Option;
-import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: tao.zhou
@@ -24,22 +24,19 @@ public class Args {
         }
     }
 
-    @Nullable
     private static Object parseOption(final List<String> arguments, final Parameter parameter) {
-        Option option = parameter.getAnnotation(Option.class);
-        String target = "-" + option.value();
-        Object value = null;
-        if (parameter.getType() == boolean.class) {
-            value = arguments.contains(target);
-        }
-        if (parameter.getType() == int.class) {
-            int index = arguments.indexOf(target);
-            value = Integer.parseInt(arguments.get(index + 1));
-        }
-        if (parameter.getType() == String.class) {
-            int index = arguments.indexOf(target);
-            value = arguments.get(index + 1);
-        }
-        return value;
+        return getOptionParser(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
     }
+
+    private static Map<Class<?>, OptionParser> PARSERS = Map.of(
+            boolean.class, new BooleanOptionParser(),
+            int.class, new IntOptionParser(),
+            String.class, new StringOptionParser());
+
+
+    private static OptionParser getOptionParser(final Class<?> type) {
+        return PARSERS.get(type);
+    }
+
+
 }
