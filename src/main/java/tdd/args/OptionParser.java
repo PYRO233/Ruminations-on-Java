@@ -8,6 +8,6 @@ import java.util.List;
  * @Author: tao.zhou
  * @Date: 2022/9/23 17:14
  */
-interface OptionParser {
-    Object parse(List<String> arguments, Option option);
+interface OptionParser<T> {
+    T parse(List<String> arguments, Option option);
 }

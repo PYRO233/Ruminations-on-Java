@@ -8,10 +8,13 @@ import java.util.List;
  * @Author: tao.zhou
  * @Date: 2022/9/23 17:15
  */
-class BooleanOptionParser implements OptionParser {
+class BooleanOptionParser implements OptionParser<Boolean> {
 
     @Override
-    public Object parse(final List<String> arguments, final Option option) {
-        return arguments.contains("-" + option.value());
+    public Boolean parse(final List<String> arguments, final Option option) {
+        int index = arguments.indexOf("-" + option.value());
+        if (index + 1 < arguments.size() && !arguments.get(index + 1).startsWith("-"))
+            throw new TooManyArgumentsException(option.value());
+        return index != -1;
     }
 }
