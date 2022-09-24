@@ -9,14 +9,11 @@ import java.util.function.Function;
  * @Author: tao.zhou
  * @Date: 2022/9/23 17:15
  */
-class IntOptionParser implements OptionParser {
+class SingleValueOptionParser implements OptionParser {
 
-    Function<String, Object> valueParser = Integer::parseInt;
+    Function<String, Object> valueParser;
 
-    public IntOptionParser() {
-    }
-
-    public IntOptionParser(final Function<String, Object> valueParser) {
+    public SingleValueOptionParser(final Function<String, Object> valueParser) {
         this.valueParser = valueParser;
     }
 

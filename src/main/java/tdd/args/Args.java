@@ -30,8 +30,8 @@ public class Args {
 
     private static Map<Class<?>, OptionParser> PARSERS = Map.of(
             boolean.class, new BooleanOptionParser(),
-            int.class, new IntOptionParser(),
-            String.class, new StringOptionParser());
+            int.class, new SingleValueOptionParser(Integer::parseInt),
+            String.class, new SingleValueOptionParser(String::valueOf));
 
 
     private static OptionParser getOptionParser(final Class<?> type) {
