@@ -9,16 +9,16 @@ import java.util.function.Function;
  * @Author: tao.zhou
  * @Date: 2022/9/23 17:15
  */
-class SingleValueOptionParser implements OptionParser {
+class SingleValueOptionParser<T> implements OptionParser {
 
-    Function<String, Object> valueParser;
+    Function<String, T> valueParser;
 
-    public SingleValueOptionParser(final Function<String, Object> valueParser) {
+    public SingleValueOptionParser(final Function<String, T> valueParser) {
         this.valueParser = valueParser;
     }
 
     @Override
-    public Object parse(final List<String> arguments, final Option option) {
+    public T parse(final List<String> arguments, final Option option) {
         int index = arguments.indexOf("-" + option.value());
         String value = arguments.get(index + 1);
         return valueParser.apply(value);
