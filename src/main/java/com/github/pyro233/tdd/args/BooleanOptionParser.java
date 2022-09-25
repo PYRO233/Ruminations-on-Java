@@ -13,8 +13,11 @@ class BooleanOptionParser implements OptionParser<Boolean> {
     @Override
     public Boolean parse(final List<String> arguments, final Option option) {
         int index = arguments.indexOf("-" + option.value());
+        if (index == -1) return false;
+
         List<String> values = SingleValueOptionParser.valuesFrom(arguments, index);
+
         if (values.size() > 0) throw new TooManyArgumentsException(option.value());
-        return index != -1;
+        return true;
     }
 }
