@@ -19,24 +19,21 @@ public class Args {
             List<String> arguments = Arrays.asList(args);
             Object[] values = Arrays.stream(constructor.getParameters()).map(it -> parseOption(arguments, it)).toArray();
             return (T) constructor.newInstance(values);
+        } catch (IllegalOptionException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     private static Object parseOption(final List<String> arguments, final Parameter parameter) {
-        return getOptionParser(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
+        if (!parameter.isAnnotationPresent(Option.class)) throw new IllegalOptionException(parameter.getName());
+        return PARSERS.get(parameter.getType()).parse(arguments, parameter.getAnnotation(Option.class));
     }
 
     private static Map<Class<?>, OptionParser> PARSERS = Map.of(
             boolean.class, new BooleanOptionParser(),
             int.class, new SingleValueOptionParser<>(0, Integer::parseInt),
             String.class, new SingleValueOptionParser<>("", String::valueOf));
-
-
-    private static OptionParser getOptionParser(final Class<?> type) {
-        return PARSERS.get(type);
-    }
-
 
 }
