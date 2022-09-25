@@ -4,6 +4,7 @@ import com.github.pyro233.tdd.args.Option;
 
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.IntStream;
 
 /**
  * @Author: tao.zhou
@@ -23,11 +24,18 @@ class SingleValueOptionParser<T> implements OptionParser<T> {
     public T parse(final List<String> arguments, final Option option) {
         int index = arguments.indexOf("-" + option.value());
         if (index == -1) return defaultValue;
-        if (index + 1 == arguments.size() || arguments.get(index + 1).startsWith("-"))
+        List<String> values = valuesFrom(arguments, index);
+        if (values.size() < 1)
             throw new InsufficientArgumentsException(option.value());
-        if (index + 2 < arguments.size() && !arguments.get(index + 2).startsWith("-"))
+        if (values.size() > 1)
             throw new TooManyArgumentsException(option.value());
-        return valueParser.apply(arguments.get(index + 1));
+        return valueParser.apply(values.get(0));
+    }
+
+    private List<String> valuesFrom(final List<String> arguments, final int index) {
+        return arguments.subList(index + 1, IntStream.range(index + 1, arguments.size())
+                .filter(it -> arguments.get(it).startsWith("-"))
+                .findFirst().orElse(arguments.size()));
     }
 
 }
