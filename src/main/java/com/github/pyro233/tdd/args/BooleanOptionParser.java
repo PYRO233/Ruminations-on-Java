@@ -1,7 +1,5 @@
 package com.github.pyro233.tdd.args;
 
-import com.github.pyro233.tdd.args.exceptions.TooManyArgumentsException;
-
 import java.util.List;
 
 /**
@@ -12,12 +10,6 @@ class BooleanOptionParser implements OptionParser<Boolean> {
 
     @Override
     public Boolean parse(final List<String> arguments, final Option option) {
-        int index = arguments.indexOf("-" + option.value());
-        if (index == -1) return false;
-
-        List<String> values = SingleValueOptionParser.valuesFrom(arguments, index);
-
-        if (values.size() > 0) throw new TooManyArgumentsException(option.value());
-        return true;
+        return SingleValueOptionParser.values(arguments, option, 0).isPresent();
     }
 }

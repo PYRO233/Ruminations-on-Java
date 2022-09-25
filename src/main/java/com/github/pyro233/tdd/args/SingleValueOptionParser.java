@@ -4,6 +4,7 @@ import com.github.pyro233.tdd.args.exceptions.InsufficientArgumentsException;
 import com.github.pyro233.tdd.args.exceptions.TooManyArgumentsException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
@@ -23,14 +24,19 @@ class SingleValueOptionParser<T> implements OptionParser<T> {
 
     @Override
     public T parse(final List<String> arguments, final Option option) {
+        return values(arguments, option, 1).map(it -> valueParser.apply(it.get(0))).orElse(defaultValue);
+    }
+
+    protected static Optional<List<String>> values(final List<String> arguments, final Option option, final int expectedSize) {
         int index = arguments.indexOf("-" + option.value());
-        if (index == -1) return defaultValue;
+        if (index == -1) return Optional.empty();
+
         List<String> values = valuesFrom(arguments, index);
-        if (values.size() < 1)
+        if (values.size() < expectedSize)
             throw new InsufficientArgumentsException(option.value());
-        if (values.size() > 1)
+        if (values.size() > expectedSize)
             throw new TooManyArgumentsException(option.value());
-        return valueParser.apply(values.get(0));
+        return Optional.of(values);
     }
 
     protected static List<String> valuesFrom(final List<String> arguments, final int index) {
