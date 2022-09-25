@@ -1,6 +1,7 @@
-package tdd.args;
+package com.github.pyro233.tdd.args;
 
-import com.github.pyro233.tdd.args.Option;
+import com.github.pyro233.tdd.args.exceptions.InsufficientArgumentsException;
+import com.github.pyro233.tdd.args.exceptions.TooManyArgumentsException;
 
 import java.util.List;
 import java.util.function.Function;

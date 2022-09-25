@@ -1,14 +1,14 @@
-package tdd.args;
+package com.github.pyro233.tdd.args.exceptions;
 
 /**
  * @Author: tao.zhou
  * @Date: 2022/9/24 11:09
  */
-public final class InsufficientArgumentsException extends RuntimeException {
+public final class TooManyArgumentsException extends RuntimeException {
 
     private final String option;
 
-    public InsufficientArgumentsException(final String option) {
+    public TooManyArgumentsException(final String option) {
         this.option = option;
     }
 

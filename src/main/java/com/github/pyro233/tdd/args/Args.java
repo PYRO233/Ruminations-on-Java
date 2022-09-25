@@ -1,6 +1,7 @@
-package tdd.args;
+package com.github.pyro233.tdd.args;
 
-import com.github.pyro233.tdd.args.Option;
+
+import com.github.pyro233.tdd.args.exceptions.IllegalOptionException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;

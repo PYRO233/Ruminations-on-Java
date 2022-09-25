@@ -1,6 +1,4 @@
-package tdd.args;
-
-import com.github.pyro233.tdd.args.Option;
+package com.github.pyro233.tdd.args;
 
 import java.util.List;
 

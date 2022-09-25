@@ -1,4 +1,4 @@
-package tdd.args;
+package com.github.pyro233.tdd.args.exceptions;
 
 /**
  * @Author: tao.zhou

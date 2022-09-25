@@ -1,5 +1,7 @@
-package tdd.args;
+package com.github.pyro233.tdd.args;
 
+import com.github.pyro233.tdd.args.exceptions.InsufficientArgumentsException;
+import com.github.pyro233.tdd.args.exceptions.TooManyArgumentsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static tdd.args.BooleanOptionParserTest.option;
+import static com.github.pyro233.tdd.args.BooleanOptionParserTest.option;
 
 /**
  * @Author: tao.zhou

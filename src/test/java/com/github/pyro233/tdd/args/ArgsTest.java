@@ -1,6 +1,6 @@
-package tdd.args;
+package com.github.pyro233.tdd.args;
 
-import com.github.pyro233.tdd.args.Option;
+import com.github.pyro233.tdd.args.exceptions.IllegalOptionException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
