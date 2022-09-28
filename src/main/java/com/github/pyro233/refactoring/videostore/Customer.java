@@ -1,7 +1,6 @@
 package com.github.pyro233.refactoring.videostore;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * @Author: tao.zhou
@@ -9,15 +8,15 @@ import java.util.Vector;
  */
 public class Customer {
 
-    private String _name;
-    private Vector _rentals = new Vector();
+    private final String _name;
+    private final List<Rental> _rentals = new ArrayList<>();
 
     public Customer(String name) {
         _name = name;
     }
 
     public void addRental(Rental arg) {
-        _rentals.addElement(arg);
+        _rentals.add(arg);
     }
 
     public String getName() {
@@ -25,11 +24,9 @@ public class Customer {
     }
 
     public String statement() {
-        Enumeration rentals = _rentals.elements();
         String result = "Rental Record for " + getName() + "\n";
 
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
+        for (final Rental each : _rentals) {
             // show figures for this rental
             result += "\t" + each.getMovie().getTitle() + "\t" + each.getCharge() + "\n";
         }
@@ -42,9 +39,7 @@ public class Customer {
 
     private int getTotalFrequentRenterPoints() {
         int result = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
+        for (final Rental each : _rentals) {
             result += each.getFrequentRenterPoints();
         }
         return result;
@@ -52,9 +47,7 @@ public class Customer {
 
     private double getTotalCharge() {
         double result = 0;
-        Enumeration rentals = _rentals.elements();
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
+        for (final Rental each : _rentals) {
             result += each.getCharge();
         }
         return result;

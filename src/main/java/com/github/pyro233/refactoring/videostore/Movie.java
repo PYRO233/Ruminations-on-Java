@@ -10,17 +10,13 @@ public class Movie {
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
 
-    private String _title;
+    private final String _title;
     // movie 可能会修改自己的分类，加入间接层
     private Price _price;
 
     public Movie(String title, int priceCode) {
         _title = title;
         setPriceCode(priceCode);
-    }
-
-    public int getPriceCode() {
-        return _price.getPriceCode();
     }
 
     public void setPriceCode(int arg) {
@@ -40,24 +36,20 @@ public class Movie {
         return _price.getCharge(daysRented);
     }
 
-    int getFrequentRenterPoints(final int daysRented) {
-        // add bonus for a two day new release rental
-        if ((getPriceCode() == NEW_RELEASE) && daysRented > 1)
-            return 2;
-        else return 1;
+    public int getFrequentRenterPoints(final int daysRented) {
+        return _price.getFrequentRenterPoints(daysRented);
     }
 
     public interface Price {
-        int getPriceCode();
 
         double getCharge(int daysRented);
+
+        default int getFrequentRenterPoints(int daysRented) {
+            return 1;
+        }
     }
 
     static class ChildrensPrice implements Price {
-        @Override
-        public int getPriceCode() {
-            return CHILDRENS;
-        }
 
         @Override
         public double getCharge(final int daysRented) {
@@ -68,10 +60,6 @@ public class Movie {
     }
 
     static class RegularPrice implements Price {
-        @Override
-        public int getPriceCode() {
-            return REGULAR;
-        }
 
         @Override
         public double getCharge(final int daysRented) {
@@ -82,14 +70,15 @@ public class Movie {
     }
 
     static class NewReleasePrice implements Price {
-        @Override
-        public int getPriceCode() {
-            return NEW_RELEASE;
-        }
 
         @Override
         public double getCharge(final int daysRented) {
             return daysRented * 3;
+        }
+
+        @Override
+        public int getFrequentRenterPoints(final int daysRented) {
+            return (daysRented > 1) ? 2 : 1;
         }
     }
 
