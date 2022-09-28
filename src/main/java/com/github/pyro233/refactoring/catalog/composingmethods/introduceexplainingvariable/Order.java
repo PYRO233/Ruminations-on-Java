@@ -16,9 +16,10 @@ public class Order {
 
     public double price() {
         // price is base price - quantity discount + shipping
-        return _quantity * _itemPrice -
-                Math.max(0, _quantity - 500) * _itemPrice * 0.05 +
-                Math.min(_quantity * _itemPrice * 0.1, 100.0);
+        final int basePrice = _quantity * _itemPrice;
+        final double quantityDiscount = Math.max(0, _quantity - 500) * _itemPrice * 0.05;
+        final double shipping = Math.min(basePrice * 0.1, 100.0);
+        return basePrice - quantityDiscount + shipping;
     }
 
 }
