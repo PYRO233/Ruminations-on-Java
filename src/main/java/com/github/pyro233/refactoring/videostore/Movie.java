@@ -11,15 +11,25 @@ public class Movie {
     public static final int NEW_RELEASE = 1;
 
     private String _title;
-    private int _priceCode;
+    // movie 可能会修改自己的分类，加入间接层
+    private Price _price;
 
     public Movie(String title, int priceCode) {
         _title = title;
-        _priceCode = priceCode;
+        setPriceCode(priceCode);
     }
 
     public int getPriceCode() {
-        return _priceCode;
+        return _price.getPriceCode();
+    }
+
+    public void setPriceCode(int arg) {
+        switch (arg) {
+            case REGULAR -> _price = new RegularPrice();
+            case NEW_RELEASE -> _price = new NewReleasePrice();
+            case CHILDRENS -> _price = new ChildrensPrice();
+            default -> throw new IllegalArgumentException("Incorrect Price Code");
+        }
     }
 
     public String getTitle() {
@@ -50,4 +60,30 @@ public class Movie {
             return 2;
         else return 1;
     }
+
+    public interface Price {
+        int getPriceCode();
+    }
+
+    class ChildrensPrice implements Price {
+        @Override
+        public int getPriceCode() {
+            return CHILDRENS;
+        }
+    }
+
+    class RegularPrice implements Price {
+        @Override
+        public int getPriceCode() {
+            return REGULAR;
+        }
+    }
+
+    class NewReleasePrice implements Price {
+        @Override
+        public int getPriceCode() {
+            return NEW_RELEASE;
+        }
+    }
+
 }
