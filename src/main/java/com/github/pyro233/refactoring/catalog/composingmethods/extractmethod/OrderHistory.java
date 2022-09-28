@@ -18,23 +18,36 @@ public class OrderHistory {
     }
 
     public void printOwing() {
-        Enumeration e = Collections.enumeration(_orders);
-        double outstanding = 0.0;
 
         // print banner
+        printBanner();
+
+        // calculate outstanding
+        double outstanding = getOutstanding();
+
+        // print details
+        printDetails(outstanding);
+    }
+
+    private double getOutstanding() {
+        Enumeration e = Collections.enumeration(_orders);
+        double result = 0.0;
+        while (e.hasMoreElements()) {
+            Order each = (Order) e.nextElement();
+            result += each.getAmount();
+        }
+        return result;
+    }
+
+    private void printDetails(final double outstanding) {
+        System.out.println("name: " + _name);
+        System.out.println("amount: " + outstanding);
+    }
+
+    private void printBanner() {
         System.out.println("***********************");
         System.out.println("**** Customer Owes ****");
         System.out.println("***********************");
-
-        // calculate outstanding
-        while (e.hasMoreElements()) {
-            Order each = (Order) e.nextElement();
-            outstanding += each.getAmount();
-        }
-
-        // print details
-        System.out.println("name: " + _name);
-        System.out.println("amount: " + outstanding);
     }
 
 }
