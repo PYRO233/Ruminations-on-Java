@@ -37,21 +37,7 @@ public class Movie {
     }
 
     double getCharge(final int daysRented) {
-        double result = 0;
-        switch (getPriceCode()) {
-            case REGULAR -> {
-                result += 2;
-                if (daysRented > 2)
-                    result += (daysRented - 2) * 1.5;
-            }
-            case NEW_RELEASE -> result += daysRented * 3;
-            case CHILDRENS -> {
-                result += 1.5;
-                if (daysRented > 3)
-                    result += (daysRented - 3) * 1.5;
-            }
-        }
-        return result;
+        return _price.getCharge(daysRented);
     }
 
     int getFrequentRenterPoints(final int daysRented) {
@@ -63,6 +49,25 @@ public class Movie {
 
     public interface Price {
         int getPriceCode();
+
+        default double getCharge(int daysRented) {
+            double result = 0;
+            final int priceCode = getPriceCode();
+            switch (priceCode) {
+                case REGULAR -> {
+                    result += 2;
+                    if (daysRented > 2)
+                        result += (daysRented - 2) * 1.5;
+                }
+                case NEW_RELEASE -> result += daysRented * 3;
+                case CHILDRENS -> {
+                    result += 1.5;
+                    if (daysRented > 3)
+                        result += (daysRented - 3) * 1.5;
+                }
+            }
+            return result;
+        }
     }
 
     class ChildrensPrice implements Price {
