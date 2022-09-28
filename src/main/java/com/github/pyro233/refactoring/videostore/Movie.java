@@ -50,45 +50,46 @@ public class Movie {
     public interface Price {
         int getPriceCode();
 
-        default double getCharge(int daysRented) {
-            final int priceCode = getPriceCode();
-            return switch (priceCode) {
-                case REGULAR -> {
-                    double result = 2;
-                    if (daysRented > 2)
-                        result += (daysRented - 2) * 1.5;
-                    yield result;
-                }
-                case NEW_RELEASE -> daysRented * 3;
-                case CHILDRENS -> {
-                    double result = 1.5;
-                    if (daysRented > 3)
-                        result += (daysRented - 3) * 1.5;
-                    yield result;
-                }
-                default -> throw new IllegalArgumentException("Incorrect Price Code");
-            };
-        }
+        double getCharge(int daysRented);
     }
 
-    class ChildrensPrice implements Price {
+    static class ChildrensPrice implements Price {
         @Override
         public int getPriceCode() {
             return CHILDRENS;
         }
+
+        @Override
+        public double getCharge(final int daysRented) {
+            double result = 1.5;
+            if (daysRented > 3) result += (daysRented - 3) * 1.5;
+            return result;
+        }
     }
 
-    class RegularPrice implements Price {
+    static class RegularPrice implements Price {
         @Override
         public int getPriceCode() {
             return REGULAR;
         }
+
+        @Override
+        public double getCharge(final int daysRented) {
+            double result = 2;
+            if (daysRented > 2) result += (daysRented - 2) * 1.5;
+            return result;
+        }
     }
 
-    class NewReleasePrice implements Price {
+    static class NewReleasePrice implements Price {
         @Override
         public int getPriceCode() {
             return NEW_RELEASE;
+        }
+
+        @Override
+        public double getCharge(final int daysRented) {
+            return daysRented * 3;
         }
     }
 
