@@ -26,4 +26,28 @@ public class Movie {
         return _title;
     }
 
+    double getCharge(final int daysRented) {
+        double result = 0;
+        switch (getPriceCode()) {
+            case REGULAR -> {
+                result += 2;
+                if (daysRented > 2)
+                    result += (daysRented - 2) * 1.5;
+            }
+            case NEW_RELEASE -> result += daysRented * 3;
+            case CHILDRENS -> {
+                result += 1.5;
+                if (daysRented > 3)
+                    result += (daysRented - 3) * 1.5;
+            }
+        }
+        return result;
+    }
+
+    int getFrequentRenterPoints(final int daysRented) {
+        // add bonus for a two day new release rental
+        if ((getPriceCode() == NEW_RELEASE) && daysRented > 1)
+            return 2;
+        else return 1;
+    }
 }
