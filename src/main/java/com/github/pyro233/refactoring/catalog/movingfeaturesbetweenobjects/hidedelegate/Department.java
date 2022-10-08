@@ -1,4 +1,4 @@
-package com.github.pyro233.refactoring.catalog.hidedelegate;
+package com.github.pyro233.refactoring.catalog.movingfeaturesbetweenobjects.hidedelegate;
 
 /**
  * @Author: tao.zhou
