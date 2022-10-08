@@ -6,11 +6,9 @@ package com.github.pyro233.refactoring.catalog.movingfeaturesbetweenobjects.move
  */
 public class SelfEncapsulatedAccount {
     private AccountType _type;
-    private double _interestRate;
 
-    public SelfEncapsulatedAccount(AccountType type, double interestRate) {
+    public SelfEncapsulatedAccount(AccountType type) {
         _type = type;
-        _interestRate = interestRate;
     }
 
     public double interestForAmountDays(double amount, int days) {
@@ -18,10 +16,10 @@ public class SelfEncapsulatedAccount {
     }
 
     private void setInterestRate(double arg) {
-        _interestRate = arg;
+        _type.setInterestRate(arg);
     }
 
     private double getInterestRate() {
-        return _interestRate;
+        return _type.getInterestRate();
     }
 }
