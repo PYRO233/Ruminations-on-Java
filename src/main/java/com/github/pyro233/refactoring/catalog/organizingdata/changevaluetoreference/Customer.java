@@ -1,5 +1,7 @@
 package com.github.pyro233.refactoring.catalog.organizingdata.changevaluetoreference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -8,10 +10,27 @@ import java.util.Objects;
  */
 public final class Customer {
 
+    public static final Map<String, Customer> _instances = new HashMap<>();
+
+    static {
+        new Customer ("Lemon Car Hire").store();
+        new Customer ("Associated Coffee Machines").store();
+        new Customer ("Bilston Gasworks").store();
+    }
+
+    private void store() {
+        _instances.put(this.getName(), this);
+    }
+
     private final String name;
 
-    public Customer(String name) {
+    private Customer(String name) {
         this.name = name;
+    }
+
+    // Replace Constructor with Factory Method
+    public static Customer getNamed(String name) {
+        return _instances.get(name);
     }
 
     public String getName() {
