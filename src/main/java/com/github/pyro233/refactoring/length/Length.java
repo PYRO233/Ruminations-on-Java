@@ -5,6 +5,9 @@ package com.github.pyro233.refactoring.length;
  * @Date: 2022/10/16 21:55
  */
 public class Length {
+    public static final String YARD = "yard";
+    public static final String INCH = "inch";
+    public static final String FOOT = "foot";
     private final double value;
     private final String unit;
 
@@ -15,26 +18,26 @@ public class Length {
 
     public Length as(String u) {
         Length len = this;
-        if (this.unit.equals("f")) {
-            if (u.equals("yard")) {
+        if (this.unit.equals(FOOT)) {
+            if (u.equals(YARD)) {
                 len = new Length(this.value / 3, u);
-            } else if (u.equals("inch")) {
+            } else if (u.equals(INCH)) {
                 len = new Length(this.value * 12, u);
             }
         }
 
-        if (this.unit.equals("yard")) {
-            if (u.equals("inch")) {
+        if (this.unit.equals(YARD)) {
+            if (u.equals(INCH)) {
                 len = new Length(this.value * 36, u);
-            } else if (u.equals("f")) {
+            } else if (u.equals(FOOT)) {
                 len = new Length(this.value * 3, u);
             }
         }
 
-        if (this.unit.equals("inch")) {
-            if (u.equals("f")) {
+        if (this.unit.equals(INCH)) {
+            if (u.equals(FOOT)) {
                 len = new Length(this.value / 12, u);
-            } else if (u.equals("yard")) {
+            } else if (u.equals(YARD)) {
                 len = new Length(this.value / 36, u);
             }
         }
@@ -42,11 +45,11 @@ public class Length {
         return len;
     }
 
-    public double getVal() {
+    public double getValue() {
         return this.value;
     }
 
-    public String getUinnt() {
+    public String getUnit() {
         return this.unit;
     }
 }
