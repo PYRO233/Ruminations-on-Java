@@ -13,12 +13,16 @@ public class Length {
     private final Unit temp_unit;
 
     public Length(double value, String unit) {
-        this.value = value;
-        this.unit = unit;
-        this.temp_unit = temp_determineUnit(unit);
+        this(value, unit, temp_determineUnit(unit));
     }
 
-    public Unit temp_determineUnit(String targetUnit) {
+    public Length(final double value, final String unit, final Unit temp_unit) {
+        this.value = value;
+        this.unit = unit;
+        this.temp_unit = temp_unit;
+    }
+
+    public static Unit temp_determineUnit(String targetUnit) {
         Unit temp_unit = null;
         if (targetUnit.equals(Length.INCH)) {
             temp_unit = Unit.INCH;
