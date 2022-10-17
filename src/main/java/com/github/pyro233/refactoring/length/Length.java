@@ -14,32 +14,34 @@ public class Length {
     }
 
     public Length as(final Unit unit) {
-        Length len = this;
+        return new Length(newValueIn(unit), unit);
+    }
+
+    private double newValueIn(final Unit unit) {
         if (this.unit == Unit.FOOT) {
             if (unit == Unit.YARD) {
-                len = new Length(this.value / 3, unit);
+                return this.value / 3;
             } else if (unit == Unit.INCH) {
-                len = new Length(this.value * 12, unit);
+                return this.value * 12;
             }
         }
 
         if (this.unit == Unit.YARD) {
             if (unit == Unit.INCH) {
-                len = new Length(this.value * 36, unit);
+                return this.value * 36;
             } else if (unit == Unit.FOOT) {
-                len = new Length(this.value * 3, unit);
+                return this.value * 3;
             }
         }
 
         if (this.unit == Unit.INCH) {
             if (unit == Unit.FOOT) {
-                len = new Length(this.value / 12, unit);
+                return this.value / 12;
             } else if (unit == Unit.YARD) {
-                len = new Length(this.value / 36, unit);
+                return this.value / 36;
             }
         }
-
-        return len;
+        return this.value;
     }
 
     public double getValue() {
