@@ -10,10 +10,26 @@ public class Length {
     public static final String FOOT = "foot";
     private final double value;
     private final String unit;
+    private final Unit temp_unit;
 
     public Length(double value, String unit) {
         this.value = value;
         this.unit = unit;
+        this.temp_unit = temp_determineUnit(unit);
+    }
+
+    public Unit temp_determineUnit(String targetUnit) {
+        Unit temp_unit = null;
+        if (targetUnit.equals(Length.INCH)) {
+            temp_unit = Unit.INCH;
+        }
+        if (targetUnit.equals(Length.YARD)) {
+            temp_unit = Unit.YARD;
+        }
+        if (targetUnit.equals(Length.FOOT)) {
+            temp_unit = Unit.FOOT;
+        }
+        return temp_unit;
     }
 
     public Length as(final String u, final Unit unit) {
@@ -49,7 +65,7 @@ public class Length {
         return this.value;
     }
 
-    public String getUnit() {
-        return this.unit;
+    public Unit getTempUnit() {
+        return this.temp_unit;
     }
 }
