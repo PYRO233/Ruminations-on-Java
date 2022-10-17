@@ -6,16 +6,16 @@ package com.github.pyro233.refactoring.length;
  */
 public class Length {
     private final double value;
-    private final Unit temp_unit;
+    private final Unit unit;
 
-    public Length(final double value, final Unit temp_unit) {
+    public Length(final double value, final Unit unit) {
         this.value = value;
-        this.temp_unit = temp_unit;
+        this.unit = unit;
     }
 
     public Length as(final Unit unit) {
         Length len = this;
-        if (temp_unit == Unit.FOOT) {
+        if (this.unit == Unit.FOOT) {
             if (unit == Unit.YARD) {
                 len = new Length(this.value / 3, unit);
             } else if (unit == Unit.INCH) {
@@ -23,7 +23,7 @@ public class Length {
             }
         }
 
-        if (temp_unit == Unit.YARD) {
+        if (this.unit == Unit.YARD) {
             if (unit == Unit.INCH) {
                 len = new Length(this.value * 36, unit);
             } else if (unit == Unit.FOOT) {
@@ -31,7 +31,7 @@ public class Length {
             }
         }
 
-        if (temp_unit == Unit.INCH) {
+        if (this.unit == Unit.INCH) {
             if (unit == Unit.FOOT) {
                 len = new Length(this.value / 12, unit);
             } else if (unit == Unit.YARD) {
@@ -46,7 +46,7 @@ public class Length {
         return this.value;
     }
 
-    public Unit getTempUnit() {
-        return this.temp_unit;
+    public Unit getUnit() {
+        return this.unit;
     }
 }
