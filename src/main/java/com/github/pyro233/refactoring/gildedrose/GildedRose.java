@@ -14,7 +14,7 @@ public class GildedRose {
 
     public void updateQuality() {
         for (final Item item : items) {
-            item.updateQuality();
+            item.passOneDay();
         }
     }
 
