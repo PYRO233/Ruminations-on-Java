@@ -68,41 +68,20 @@ public class Item {
         }
     }
 
-    private boolean isSulfuras() {
-        return name.equals("Sulfuras, Hand of Ragnaros");
+    protected boolean isSulfuras() {
+        return false;
     }
 
-    private boolean isBackstagePass() {
-        return name.equals("Backstage passes to a TAFKAL80ETC concert");
+    protected boolean isBackstagePass() {
+        return false;
     }
 
-    private boolean isAgedBrie() {
-        return name.equals("Aged Brie");
+    protected boolean isAgedBrie() {
+        return false;
     }
 
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
-    }
-}
-
-class AgedBrie extends Item {
-
-    public AgedBrie(final int sellIn, final int quality) {
-        super("Aged Brie", sellIn, quality);
-    }
-}
-
-class Sulfuras extends Item {
-
-    public Sulfuras(final int sellIn, final int quality) {
-        super("Sulfuras, Hand of Ragnaros", sellIn, quality);
-    }
-}
-
-class BackstagePass extends Item {
-
-    public BackstagePass(final int sellIn, final int quality) {
-        super("Backstage passes to a TAFKAL80ETC concert", sellIn, quality);
     }
 }
