@@ -17,18 +17,6 @@ public class Item {
         this.quality = quality;
     }
 
-    static Item createAgedBrie(final int sellIn, final int quality) {
-        return new AgedBrie(sellIn, quality);
-    }
-
-    static Item createSulfuras(final int sellIn, final int quality) {
-        return new Sulfuras(sellIn, quality);
-    }
-
-    static Item createBackstagePass(final int sellIn, final int quality) {
-        return new BackstagePass(sellIn, quality);
-    }
-
     void updateQuality() {
         if (!isAgedBrie()
                 && !isBackstagePass()) {
