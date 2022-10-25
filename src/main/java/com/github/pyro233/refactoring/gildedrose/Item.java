@@ -11,10 +11,22 @@ public class Item {
 
     public int quality;
 
-    public Item(String name, int sell_in, int quality) {
+    public Item(String name, int sellIn, int quality) {
         this.name = name;
-        this.sellIn = sell_in;
+        this.sellIn = sellIn;
         this.quality = quality;
+    }
+
+    static Item createAgedBrie(final int sellIn, final int quality) {
+        return new Item("Aged Brie", sellIn, quality);
+    }
+
+    static Item createSulfuras(final int sellIn, final int quality) {
+        return new Item("Sulfuras, Hand of Ragnaros", sellIn, quality);
+    }
+
+    static Item createBackstagePass(final int sellIn, final int quality) {
+        return new Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality);
     }
 
     void updateQuality() {
