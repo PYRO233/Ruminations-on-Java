@@ -18,15 +18,15 @@ public class Item {
     }
 
     static Item createAgedBrie(final int sellIn, final int quality) {
-        return new Item("Aged Brie", sellIn, quality);
+        return new AgedBrie(sellIn, quality);
     }
 
     static Item createSulfuras(final int sellIn, final int quality) {
-        return new Item("Sulfuras, Hand of Ragnaros", sellIn, quality);
+        return new Sulfuras(sellIn, quality);
     }
 
     static Item createBackstagePass(final int sellIn, final int quality) {
-        return new Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality);
+        return new BackstagePass(sellIn, quality);
     }
 
     void updateQuality() {
@@ -95,5 +95,26 @@ public class Item {
     @Override
     public String toString() {
         return this.name + ", " + this.sellIn + ", " + this.quality;
+    }
+}
+
+class AgedBrie extends Item {
+
+    public AgedBrie(final int sellIn, final int quality) {
+        super("Aged Brie", sellIn, quality);
+    }
+}
+
+class Sulfuras extends Item {
+
+    public Sulfuras(final int sellIn, final int quality) {
+        super("Sulfuras, Hand of Ragnaros", sellIn, quality);
+    }
+}
+
+class BackstagePass extends Item {
+
+    public BackstagePass(final int sellIn, final int quality) {
+        super("Backstage passes to a TAFKAL80ETC concert", sellIn, quality);
     }
 }
