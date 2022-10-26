@@ -47,10 +47,9 @@ public class Item {
                 }
             }
         } else {
-            if (quality <= 0) {
-                return;
+            if (quality > 0) {
+                quality = quality - 1;
             }
-            quality = quality - 1;
         }
     }
 
@@ -71,10 +70,9 @@ public class Item {
             if (isBackstagePass()) {
                 quality = 0;
             } else {
-                if (quality <= 0) {
-                    return;
+                if (quality > 0) {
+                    quality = quality - 1;
                 }
-                quality = quality - 1;
             }
         }
     }
