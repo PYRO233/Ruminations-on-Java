@@ -14,7 +14,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GildedRoseSafetyNet {
 
     @Test
-    public void should_always_generate_output_identical_to_baseline() throws IOException {
+    public void should_always_generate_output_identical_to_baseline() {
         assertThat(TextTestFixture.generateBaselineOutput(), is(BASELINE));
     }
 
