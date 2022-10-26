@@ -28,7 +28,7 @@ public class Item {
     }
 
     protected void updateQuality() {
-        if (isAgedBrie() || isBackstagePass()) {
+        if (isBackstagePass()) {
             if (quality < 50) {
                 quality = quality + 1;
 
@@ -62,26 +62,16 @@ public class Item {
     }
 
     protected void updateQualityAfterExpiration() {
-        if (isAgedBrie()) {
-            if (quality < 50) {
-                quality = quality + 1;
-            }
+        if (isBackstagePass()) {
+            quality = 0;
         } else {
-            if (isBackstagePass()) {
-                quality = 0;
-            } else {
-                if (quality > 0) {
-                    quality = quality - 1;
-                }
+            if (quality > 0) {
+                quality = quality - 1;
             }
         }
     }
 
     protected boolean isBackstagePass() {
-        return false;
-    }
-
-    protected boolean isAgedBrie() {
         return false;
     }
 
