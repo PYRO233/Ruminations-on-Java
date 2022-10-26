@@ -47,10 +47,8 @@ public class Item {
                 }
             }
         } else {
-            if (quality > 0) {
-                if (!isSulfuras()) {
-                    quality = quality - 1;
-                }
+            if (quality > 0 && !isSulfuras()) {
+                quality = quality - 1;
             }
         }
     }
@@ -75,10 +73,8 @@ public class Item {
             if (isBackstagePass()) {
                 quality = 0;
             } else {
-                if (quality > 0) {
-                    if (!isSulfuras()) {
-                        quality = quality - 1;
-                    }
+                if (quality > 0 && !isSulfuras()) {
+                    quality = quality - 1;
                 }
             }
         }
