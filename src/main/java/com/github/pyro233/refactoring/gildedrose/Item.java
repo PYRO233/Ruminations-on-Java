@@ -28,6 +28,10 @@ public class Item {
     }
 
     protected void updateQuality() {
+        decreaseQuality();
+    }
+
+    private void decreaseQuality() {
         if (quality > 0) {
             quality = quality - 1;
         }
@@ -42,9 +46,7 @@ public class Item {
     }
 
     protected void updateQualityAfterExpiration() {
-        if (quality > 0) {
-            quality = quality - 1;
-        }
+        decreaseQuality();
     }
 
     @Override
