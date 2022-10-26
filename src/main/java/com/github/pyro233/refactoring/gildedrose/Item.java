@@ -31,12 +31,6 @@ public class Item {
         decreaseQuality();
     }
 
-    private void decreaseQuality() {
-        if (quality > 0) {
-            quality = quality - 1;
-        }
-    }
-
     protected void updateSellIn() {
         sellIn = sellIn - 1;
     }
@@ -48,6 +42,19 @@ public class Item {
     protected void updateQualityAfterExpiration() {
         decreaseQuality();
     }
+
+    private void decreaseQuality() {
+        if (quality > 0) {
+            quality = quality - 1;
+        }
+    }
+
+    protected void increaseQuality() {
+        if (quality < 50) {
+            quality = quality + 1;
+        }
+    }
+
 
     @Override
     public String toString() {
