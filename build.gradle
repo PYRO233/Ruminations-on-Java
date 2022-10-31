@@ -23,6 +23,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-runner:1.8.2")
     testImplementation("org.mockito:mockito-core:4.3.1")
     testImplementation("jakarta.inject:jakarta.inject-tck:2.0.1")
+    testImplementation 'com.approvaltests:approvaltests:4.0.2'
 }
 
 test {
