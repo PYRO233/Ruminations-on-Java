@@ -15,7 +15,6 @@ import java.util.stream.IntStream;
 class GameTest {
     @Test
     public void itsLockedDown() throws Exception {
-
         Random randomizer = new Random(123455);
         ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(resultStream));
@@ -23,6 +22,5 @@ class GameTest {
         IntStream.range(1, 15).forEach(i -> GameRunner.playGame(randomizer));
 
         Approvals.verify(resultStream.toString());
-
     }
 }
