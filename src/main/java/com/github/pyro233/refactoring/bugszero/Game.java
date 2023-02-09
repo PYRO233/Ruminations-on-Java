@@ -2,6 +2,7 @@ package com.github.pyro233.refactoring.bugszero;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @Author: tao.zhou
@@ -10,6 +11,7 @@ import java.util.LinkedList;
  */
 public class Game {
     ArrayList players = new ArrayList();
+    private List<Player> temp_players = new ArrayList<>();
     int[] places = new int[6];
     int[] goldCoins = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
@@ -37,6 +39,7 @@ public class Game {
 
     public boolean add(String playerName) {
         players.add(playerName);
+        temp_players.add(new Player(playerName));
         places[howManyPlayers()] = 0;
         goldCoins[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
