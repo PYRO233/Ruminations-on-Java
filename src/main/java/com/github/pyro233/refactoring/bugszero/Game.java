@@ -10,7 +10,6 @@ import java.util.List;
  * @see <a href="https://github.com/EthanLin-TWer/bugszero-java">林从羽</a>
  */
 public class Game {
-    ArrayList players = new ArrayList();
     private List<Player> temp_players = new ArrayList<>();
     int[] places = new int[6];
     int[] goldCoins = new int[6];
@@ -38,7 +37,6 @@ public class Game {
     }
 
     public boolean add(String playerName) {
-        players.add(playerName);
         temp_players.add(new Player(playerName));
         places[howManyPlayers()] = 0;
         goldCoins[howManyPlayers()] = 0;
