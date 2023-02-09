@@ -10,7 +10,7 @@ import java.util.List;
  * @see <a href="https://github.com/EthanLin-TWer/bugszero-java">林从羽</a>
  */
 public class Game {
-    private List<Player> temp_players = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
     int[] places = new int[6];
     int[] goldCoins = new int[6];
     boolean[] inPenaltyBox = new boolean[6];
@@ -37,18 +37,18 @@ public class Game {
     }
 
     public boolean add(String playerName) {
-        temp_players.add(new Player(playerName));
+        players.add(new Player(playerName));
         places[howManyPlayers()] = 0;
         goldCoins[howManyPlayers()] = 0;
         inPenaltyBox[howManyPlayers()] = false;
 
         System.out.println(playerName + " was added");
-        System.out.println("They are player number " + temp_players.size());
+        System.out.println("They are player number " + players.size());
         return true;
     }
 
     public int howManyPlayers() {
-        return temp_players.size();
+        return players.size();
     }
 
     public void roll(int roll) {
@@ -73,7 +73,7 @@ public class Game {
     }
 
     private String getCurrentPlayerName() {
-        return temp_players.get(currentPlayer).getName();
+        return players.get(currentPlayer).getName();
     }
 
     private void movePlayerAndAskQuestion(int roll) {
@@ -116,7 +116,7 @@ public class Game {
             if (isGettingOutOfPenaltyBox) {
                 System.out.println("Answer was correct!!!!");
                 currentPlayer++;
-                if (currentPlayer == temp_players.size()) currentPlayer = 0;
+                if (currentPlayer == players.size()) currentPlayer = 0;
                 goldCoins[currentPlayer]++;
                 System.out.println(getCurrentPlayerName()
                         + " now has "
@@ -126,7 +126,7 @@ public class Game {
                 return didPlayerWin();
             } else {
                 currentPlayer++;
-                if (currentPlayer == temp_players.size()) currentPlayer = 0;
+                if (currentPlayer == players.size()) currentPlayer = 0;
                 return true;
             }
         } else {
@@ -139,7 +139,7 @@ public class Game {
 
             boolean winner = didPlayerWin();
             currentPlayer++;
-            if (currentPlayer == temp_players.size()) currentPlayer = 0;
+            if (currentPlayer == players.size()) currentPlayer = 0;
 
             return winner;
         }
@@ -162,7 +162,7 @@ public class Game {
         System.out.println(getCurrentPlayerName() + " was sent to the penalty box");
         inPenaltyBox[currentPlayer] = true;
         currentPlayer++;
-        if (currentPlayer == temp_players.size()) currentPlayer = 0;
+        if (currentPlayer == players.size()) currentPlayer = 0;
         return true;
     }
 
