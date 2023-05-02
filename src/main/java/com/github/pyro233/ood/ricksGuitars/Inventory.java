@@ -33,22 +33,20 @@ public class Inventory {
         return null;
     }
 
-    public List<Guitar> search(Guitar searchGuitar) {
+    public List<Guitar> search(GuitarSpec searchSpec) {
         List<Guitar> matchingGuitars = new ArrayList<>();
         for (Guitar guitar : guitars) {
-            // Ignore serial number since that's unique
-            // Ignore price since that's unique
-            if (searchGuitar.getBuilder() != guitar.getBuilder())
+            GuitarSpec guitarSpec = guitar.getSpec();
+            if (searchSpec.builder() != guitarSpec.builder())
                 continue;
-            String model = searchGuitar.getModel();
-            if ((model != null) && (!model.equals("")) &&
-                    (!model.equals(guitar.getModel())))
+            String model = searchSpec.model().toLowerCase();
+            if (!model.equals("") && !model.equals(guitarSpec.model().toLowerCase()))
                 continue;
-            if (searchGuitar.getType() != guitar.getType())
+            if (searchSpec.type() != guitarSpec.type())
                 continue;
-            if (searchGuitar.getBackWood() != guitar.getBackWood())
+            if (searchSpec.backWood() != guitarSpec.backWood())
                 continue;
-            if (searchGuitar.getTopWood() != guitar.getTopWood())
+            if (searchSpec.topWood() != guitarSpec.topWood())
                 continue;
             matchingGuitars.add(guitar);
         }
