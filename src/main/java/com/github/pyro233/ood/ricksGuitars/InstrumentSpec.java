@@ -1,58 +1,38 @@
 package com.github.pyro233.ood.ricksGuitars;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Author: tao.zhou
  * @Date: 2023/5/5 9:57
  */
-public abstract class InstrumentSpec {
+public class InstrumentSpec {
 
-    private Builder builder;
-    private String model;
-    private Type type;
-    private Wood backWood;
-    private Wood topWood;
+    private Map<String, Object> properties;
 
-    public InstrumentSpec(Builder builder, String model, Type type,
-                          Wood backWood, Wood topWood) {
-        this.builder = builder;
-        this.model = model;
-        this.type = type;
-        this.backWood = backWood;
-        this.topWood = topWood;
+    public InstrumentSpec(Map<String, Object> properties) {
+        if (properties == null) {
+            this.properties = new HashMap<>();
+        } else {
+            this.properties = new HashMap<>(properties);
+        }
     }
 
-    public Builder getBuilder() {
-        return builder;
+    public Object getProperty(String propertyName) {
+        return properties.get(propertyName);
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public Wood getBackWood() {
-        return backWood;
-    }
-
-    public Wood getTopWood() {
-        return topWood;
+    public Map<String, Object> getProperties() {
+        return properties;
     }
 
     public boolean matches(InstrumentSpec otherSpec) {
-        if (builder != otherSpec.builder)
-            return false;
-        if ((model != null) && (!model.equals("")) &&
-                (!model.equals(otherSpec.model)))
-            return false;
-        if (type != otherSpec.type)
-            return false;
-        if (backWood != otherSpec.backWood)
-            return false;
-        if (topWood != otherSpec.topWood)
-            return false;
+        for (final String propertyName : otherSpec.getProperties().keySet()) {
+            if (!properties.get(propertyName).equals(otherSpec.getProperty(propertyName))) {
+                return false;
+            }
+        }
         return true;
     }
 
