@@ -4,23 +4,25 @@ package com.github.pyro233.ood.ricksGuitars;
  * @Author: tao.zhou
  * @Date: 2023/5/2 18:23
  */
-public record GuitarSpec(Builder builder, String model, Type type, int numStrings, Wood backWood, Wood topWood) {
+public class GuitarSpec extends InstrumentSpec {
 
-    public boolean matches(final GuitarSpec searchSpec) {
-        if (searchSpec.builder() != this.builder())
-            return false;
-        String model = searchSpec.model().toLowerCase();
-        if (!model.equals("") && !model.equals(this.model().toLowerCase()))
-            return false;
-        if (searchSpec.type() != this.type())
-            return false;
-        if (searchSpec.backWood() != this.backWood())
-            return false;
-        if (searchSpec.topWood() != this.topWood())
-            return false;
-        if (searchSpec.numStrings() != this.numStrings())
-            return false;
-        return true;
+    private int numStrings;
+
+    public GuitarSpec(Builder builder, String model, Type type,
+                      int numStrings, Wood backWood, Wood topWood) {
+        super(builder, model, type, backWood, topWood);
+        this.numStrings = numStrings;
     }
 
+    public int getNumStrings() {
+        return numStrings;
+    }
+
+    @Override
+    public boolean matches(InstrumentSpec otherSpec) {
+        if (!super.matches(otherSpec))
+            return false;
+        return otherSpec instanceof GuitarSpec spec
+                && numStrings == spec.numStrings;
+    }
 }

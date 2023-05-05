@@ -4,31 +4,9 @@ package com.github.pyro233.ood.ricksGuitars;
  * @Author: tao.zhou
  * @Date: 2023/5/2 17:17
  */
-public class Guitar {
-
-    private final String serialNumber;
-    private double price;
-    private final GuitarSpec spec;
+public class Guitar extends Instrument {
 
     public Guitar(String serialNumber, double price, GuitarSpec spec) {
-        this.serialNumber = serialNumber;
-        this.price = price;
-        this.spec = spec;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(float newPrice) {
-        this.price = newPrice;
-    }
-
-    public GuitarSpec getSpec() {
-        return spec;
+        super(serialNumber, price, spec);
     }
 }

@@ -1,6 +1,6 @@
 package com.github.pyro233.ood.ricksGuitars;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,34 +10,48 @@ import java.util.List;
  */
 public class Inventory {
 
-    private final List<Guitar> guitars;
+    private final List<Instrument> inventory;
 
     public Inventory() {
-        guitars = new LinkedList<>();
+        inventory = new LinkedList<>();
     }
 
-    public void addGuitar(String serialNumber, double price,
-                          GuitarSpec spec) {
-        Guitar guitar = new Guitar(serialNumber, price, spec);
-        guitars.add(guitar);
+    public void addInstrument(String serialNumber, double price,
+                              InstrumentSpec spec) {
+        Instrument instrument = null;
+        if (spec instanceof GuitarSpec) {
+            instrument = new Guitar(serialNumber, price, (GuitarSpec)spec);
+        } else if (spec instanceof MandolinSpec) {
+            instrument = new Mandolin(serialNumber, price, (MandolinSpec)spec);
+        }
+        inventory.add(instrument);
     }
 
-    public Guitar getGuitar(String serialNumber) {
-        for (Guitar guitar : guitars) {
-            if (guitar.getSerialNumber().equals(serialNumber)) {
-                return guitar;
+    public Instrument get(String serialNumber) {
+        for (Instrument instrument : inventory) {
+            if (instrument.getSerialNumber().equals(serialNumber)) {
+                return instrument;
             }
         }
         return null;
     }
 
     public List<Guitar> search(GuitarSpec searchSpec) {
-        List<Guitar> matchingGuitars = new ArrayList<>();
-        for (Guitar guitar : guitars) {
-            GuitarSpec guitarSpec = guitar.getSpec();
-            if (guitarSpec.matches(searchSpec)) matchingGuitars.add(guitar);
+        List<Guitar> matchingGuitars = new LinkedList<>();
+        for (final Instrument instrument : inventory) {
+            if (instrument.getSpec().matches(searchSpec))
+                matchingGuitars.add((Guitar) instrument);
         }
         return matchingGuitars;
+    }
+
+    public List<Mandolin> search(MandolinSpec searchSpec) {
+        List<Mandolin> matchingMandolins = new LinkedList<>();
+        for (final Instrument instrument : inventory) {
+            if (instrument.getSpec().matches(searchSpec))
+                matchingMandolins.add((Mandolin) instrument);
+        }
+        return matchingMandolins;
     }
 
 }
