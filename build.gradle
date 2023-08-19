@@ -26,6 +26,7 @@ dependencies {
     testImplementation("jakarta.inject:jakarta.inject-tck:2.0.1")
     testImplementation 'com.approvaltests:approvaltests:4.0.2'
     testImplementation "org.spockframework:spock-core:2.1-groovy-3.0"
+    implementation 'org.dom4j:dom4j:2.1.4'
 }
 
 test {
