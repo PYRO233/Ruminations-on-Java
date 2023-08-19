@@ -1,5 +1,7 @@
-package com.github.pyro233.mini.spring;
+package com.github.pyro233.mini.spring.context;
 
+import com.github.pyro233.mini.spring.beans.NoSuchBeanDefinitionException;
+import com.github.pyro233.mini.spring.test.AService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClassPathXmlApplicationContextTest {
 
     @Test
-    public void test_parseXml_and_getBean() {
+    public void test_parseXml_and_getBean() throws NoSuchBeanDefinitionException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         final Object testService = context.getBean("aservice");
         assertTrue(testService instanceof AService);

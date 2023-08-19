@@ -1,4 +1,4 @@
-package com.github.pyro233.mini.spring;
+package com.github.pyro233.mini.spring.beans;
 
 /**
  * @Author: tao.zhou
