@@ -10,6 +10,3 @@ import java.util.Iterator;
 public interface Resource<T> extends Iterator<T> {
 
 }
-
-
-// class ClassPathXmlResource implements Resource

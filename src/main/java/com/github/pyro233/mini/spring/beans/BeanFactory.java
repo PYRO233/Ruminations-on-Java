@@ -7,9 +7,6 @@ package com.github.pyro233.mini.spring.beans;
 public interface BeanFactory {
 
     // method getBean
-    Object getBean(String name) throws NoSuchBeanDefinitionException;
-
-    // method registerBeanDefinition
-    void registerBeanDefinition(BeanDefinition beanDefinition);
+    Object getBean(String name) throws BeansException;
 
 }
