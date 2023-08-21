@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans>
-    <bean id="testGetBean" class="com.github.pyro233.mini.spring.test.AServiceImpl"/>
+    <bean id="testGetBean" class="com.github.pyro233.mini.spring.test.ServiceImpl"/>
 
-    <bean id="testValues" class="com.github.pyro233.mini.spring.test.AServiceImpl">
+    <bean id="testValues" class="com.github.pyro233.mini.spring.test.ServiceImpl">
         <constructor-arg type="String" name="name" value="abc"/>
         <constructor-arg type="int" name="level" value="3"/>
         <property type="String" name="property" value="Hello World!"/>
     </bean>
 
-    <bean id="testValuesDefaultCtor" class="com.github.pyro233.mini.spring.test.AServiceImpl">
+    <bean id="testValuesDefaultCtor" class="com.github.pyro233.mini.spring.test.ServiceImpl">
         <property type="String" name="property" value="Hello World!"/>
+    </bean>
+
+    <bean id="testDependency" class="com.github.pyro233.mini.spring.test.ServiceImpl">
+        <property type="com.github.pyro233.mini.spring.test.ServiceL1" name="serviceL1" ref="serviceL1"/>
+    </bean>
+    <bean id="serviceL1" class="com.github.pyro233.mini.spring.test.ServiceL1">
+        <property type="com.github.pyro233.mini.spring.test.Service" name="service" ref="testDependency"/>
+        <property type="com.github.pyro233.mini.spring.test.ServiceL2" name="serviceL2" ref="serviceL2"/>
+    </bean>
+    <bean id="serviceL2" class="com.github.pyro233.mini.spring.test.ServiceL2">
     </bean>
 </beans>

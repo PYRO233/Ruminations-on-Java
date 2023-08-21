@@ -9,6 +9,7 @@ import com.github.pyro233.mini.spring.core.ClassPathXmlResource;
 import org.dom4j.Element;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: tao.zhou
@@ -55,8 +56,9 @@ public class XmlBeanDefinitionReader {
         for (Element e : propertyElements) {
             String pType = e.attributeValue("type");
             String pName = e.attributeValue("name");
-            String pValue = e.attributeValue("value");
-            pvs.addPropertyValue(new PropertyValue(pType, pName, pValue));
+            boolean isRef = Optional.ofNullable(e.attributeValue("ref")).filter(s -> !s.equals("")).isPresent();
+            String pValue = isRef ? e.attributeValue("ref") : e.attributeValue("value");
+            pvs.addPropertyValue(new PropertyValue(pType, pName, pValue, isRef));
         }
         return pvs;
     }

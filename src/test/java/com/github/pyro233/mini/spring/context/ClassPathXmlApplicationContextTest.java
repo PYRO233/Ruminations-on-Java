@@ -1,8 +1,8 @@
 package com.github.pyro233.mini.spring.context;
 
 import com.github.pyro233.mini.spring.beans.BeansException;
-import com.github.pyro233.mini.spring.test.AService;
-import com.github.pyro233.mini.spring.test.AServiceImpl;
+import com.github.pyro233.mini.spring.test.Service;
+import com.github.pyro233.mini.spring.test.ServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +18,7 @@ class ClassPathXmlApplicationContextTest {
     public void test_parseXml_and_getBean() throws BeansException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         final Object testService = context.getBean("testGetBean");
-        assertTrue(testService instanceof AService);
+        assertTrue(testService instanceof Service);
     }
 
     @Test
@@ -26,14 +26,20 @@ class ClassPathXmlApplicationContextTest {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         final Object testService = context.getBean("testValues");
         // testService cast to AService
-        final AServiceImpl aService = (AServiceImpl) testService;
+        final ServiceImpl aService = (ServiceImpl) testService;
         // assert name == abc
         assertEquals("abc", aService.getName());
         assertEquals(3, aService.getLevel());
         assertEquals("Hello World!", aService.getProperty());
 
-        final AServiceImpl testServiceWithDefaultCtor =  (AServiceImpl) context.getBean("testValues");
+        final ServiceImpl testServiceWithDefaultCtor =  (ServiceImpl) context.getBean("testValues");
         assertEquals("Hello World!", testServiceWithDefaultCtor.getProperty());
     }
 
+    @Test
+    public void test_parseXml_and_dependencyInjection() throws BeansException {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        final Service testDependency = (Service) context.getBean("testDependency");
+        assertEquals("L2", testDependency.getData());
+    }
 }

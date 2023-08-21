@@ -4,11 +4,12 @@ package com.github.pyro233.mini.spring.test;
  * @Author: tao.zhou
  * @Date: 2023/8/19 9:46
  */
-public class AServiceImpl implements AService {
+public class ServiceImpl implements Service {
 
     private String name;
     private int level;
     private String property;
+    private ServiceL1 serviceL1;
 
     public String getName() {
         return name;
@@ -26,17 +27,20 @@ public class AServiceImpl implements AService {
         this.property = property;
     }
 
-    public AServiceImpl() {
+    public ServiceImpl() {
     }
 
-    public AServiceImpl(String name, int level) {
+    public ServiceImpl(String name, int level) {
         this.name = name;
         this.level = level;
     }
 
+    public void setServiceL1(ServiceL1 serviceL1) {
+        this.serviceL1 = serviceL1;
+    }
+
     @Override
-    public void sayHello() {
-        // print "a service 1 say hello"
-        System.out.println("a service 1 say hello");
+    public String getData() {
+        return serviceL1.getResult();
     }
 }

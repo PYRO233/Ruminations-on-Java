@@ -53,14 +53,21 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
 
         try {
             final Class<?> clz = Class.forName(bd.getClassName());
-            final Constructor<?> ctor = clz.getConstructor(ctorArgs.paramTypes());
-            obj = ctor.newInstance(ctorArgs.paramValues());
+            obj = doCreateBean(ctorArgs, clz);
+
+            super.registerEarlySingleton(bd.getId(), obj);
+
             handleProperties(bd, obj, clz);
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException | InvocationTargetException e) {
             throw new BeansException();
         }
 
         return obj;
+    }
+
+    private Object doCreateBean(ReflectionArgs ctorArgs, Class<?> clz) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+        final Constructor<?> ctor = clz.getConstructor(ctorArgs.paramTypes());
+        return ctor.newInstance(ctorArgs.paramValues());
     }
 
     record ReflectionArgs(Class<?>[] paramTypes, Object[] paramValues) {
@@ -88,18 +95,27 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         Object pValue = propertyValue.getValue();
 
         Class<?>[] paramTypes = new Class<?>[1];
-        if ("String".equals(pType) || "java.lang.String".equals(pType)) {
-            paramTypes[0] = String.class;
-        } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
-            paramTypes[0] = Integer.class;
-        } else if ("int".equals(pType)) {
-            paramTypes[0] = int.class;
-        } else {
-            paramTypes[0] = String.class;
-        }
-
         Object[] paramValues = new Object[1];
-        paramValues[0] = pValue;
+
+        if (!propertyValue.isRef()) {
+            if ("String".equals(pType) || "java.lang.String".equals(pType)) {
+                paramTypes[0] = String.class;
+            } else if ("Integer".equals(pType) || "java.lang.Integer".equals(pType)) {
+                paramTypes[0] = Integer.class;
+            } else if ("int".equals(pType)) {
+                paramTypes[0] = int.class;
+            } else {
+                paramTypes[0] = String.class;
+            }
+            paramValues[0] = pValue;
+        } else {
+            try {
+                paramTypes[0] = Class.forName(pType);
+                paramValues[0] = getBean((String) pValue);
+            } catch (BeansException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         return new ReflectionArgs(paramTypes, paramValues);
     }
 
