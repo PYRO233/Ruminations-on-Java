@@ -1,12 +1,15 @@
 package com.github.pyro233.mini.spring.beans;
 
+import com.github.pyro233.mini.spring.beans.annotation.Autowired;
 import com.github.pyro233.mini.spring.beans.config.CtorArg;
 import com.github.pyro233.mini.spring.beans.config.BeanDefinition;
 import com.github.pyro233.mini.spring.beans.config.CtorArgValues;
 import com.github.pyro233.mini.spring.beans.config.PropertyValue;
 import com.github.pyro233.mini.spring.beans.config.PropertyValues;
+import com.github.pyro233.mini.spring.core.StringUtils;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -32,6 +35,13 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
                 bd = getBeanDefinition(beanName);
                 singleton = createBean(bd);
                 registerSingleton(bd.getId(), singleton);
+
+                applyBeanPostProcessorsBeforeInitialization(singleton, beanName);
+                if (StringUtils.isNotEmpty(bd.getInitMethodName())) {
+                    invokeInitMethod(bd, singleton);
+                }
+                // applyBeanPostProcessorsAfterInitialization(singleton, beanName);
+
             } catch (NoSuchBeanDefinitionException e) {
                 throw new BeansException();
             }
@@ -79,7 +89,8 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         for (int i = 0; i < propertyValues.size(); i++) {
             PropertyValue propertyValue = propertyValues.get(i);
             String pName = propertyValue.getName();
-            String methodName = "set" + pName.substring(0, 1).toUpperCase() + pName.substring(1);
+            String methodName = "set" + pName.substring(0, 1)
+                                             .toUpperCase() + pName.substring(1);
             ReflectionArgs reflectionArgs = getSetPropertyArg(propertyValue);
             try {
                 Method method = clz.getMethod(methodName, reflectionArgs.paramTypes());
@@ -153,4 +164,34 @@ public class SimpleBeanFactory extends DefaultSingletonBeanRegistry implements B
         }
         return bd;
     }
+
+    private Object applyBeanPostProcessorsBeforeInitialization(Object bean, String beanName) throws BeansException {
+        final Class<?> clazz = bean.getClass();
+        final Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            final boolean isAutowired = field.isAnnotationPresent(Autowired.class);
+            if (isAutowired) {
+                final String autowiredBeanName = field.getName();
+                final Object autowiredBean = getBean(autowiredBeanName);
+                field.setAccessible(true);
+                try {
+                    field.set(bean, autowiredBean);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bean;
+    }
+
+    private void invokeInitMethod(BeanDefinition bd, Object obj) {
+        Class<?> clz = obj.getClass();
+        try {
+            Method method = clz.getMethod(bd.getInitMethodName());
+            method.invoke(obj);
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -6,6 +6,7 @@ import com.github.pyro233.mini.spring.beans.config.CtorArgValues;
 import com.github.pyro233.mini.spring.beans.config.PropertyValue;
 import com.github.pyro233.mini.spring.beans.config.PropertyValues;
 import com.github.pyro233.mini.spring.core.ClassPathXmlResource;
+import com.github.pyro233.mini.spring.core.StringUtils;
 import org.dom4j.Element;
 
 import java.util.List;
@@ -29,10 +30,13 @@ public class XmlBeanDefinitionReader {
             final Element element = resource.next();
             final String beanId = element.attributeValue("id");
             final String beanClassName = element.attributeValue("class");
+            final String initMethodName = element.attributeValue("init-method");
+
             final BeanDefinition beanDefinition = new BeanDefinition(beanId, beanClassName);
 
             beanDefinition.setConstructorArgumentValues(getCtorArgValues(element));
             beanDefinition.setPropertyValues(getPropertyValues(element));
+            beanDefinition.setInitMethodName(initMethodName);
 
             simpleBeanFactory.registerBeanDefinition(beanId, beanDefinition);
         }
@@ -56,7 +60,7 @@ public class XmlBeanDefinitionReader {
         for (Element e : propertyElements) {
             String pType = e.attributeValue("type");
             String pName = e.attributeValue("name");
-            boolean isRef = Optional.ofNullable(e.attributeValue("ref")).filter(s -> !s.equals("")).isPresent();
+            boolean isRef = StringUtils.isNotEmpty(e.attributeValue("ref"));
             String pValue = isRef ? e.attributeValue("ref") : e.attributeValue("value");
             pvs.addPropertyValue(new PropertyValue(pType, pName, pValue, isRef));
         }

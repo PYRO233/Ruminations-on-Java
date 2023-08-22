@@ -21,4 +21,10 @@
     </bean>
     <bean id="serviceL2" class="com.github.pyro233.mini.spring.test.ServiceL2">
     </bean>
+
+    <bean id="testValuesDefaultCtor" class="com.github.pyro233.mini.spring.test.ServiceImpl">
+        <property type="String" name="property" value="Hello World!"/>
+    </bean>
+
+    <bean id="testInitMethod" class="com.github.pyro233.mini.spring.test.ServiceImpl" init-method="init"/>
 </beans>

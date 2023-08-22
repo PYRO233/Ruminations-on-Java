@@ -1,5 +1,7 @@
 package com.github.pyro233.mini.spring.test;
 
+import com.github.pyro233.mini.spring.beans.annotation.Autowired;
+
 /**
  * @Author: tao.zhou
  * @Date: 2023/8/19 9:46
@@ -9,6 +11,7 @@ public class ServiceImpl implements Service {
     private String name;
     private int level;
     private String property;
+    @Autowired
     private ServiceL1 serviceL1;
 
     public String getName() {
@@ -42,5 +45,9 @@ public class ServiceImpl implements Service {
     @Override
     public String getData() {
         return serviceL1.getResult();
+    }
+
+    public void init() {
+        System.out.println("init method.");
     }
 }
