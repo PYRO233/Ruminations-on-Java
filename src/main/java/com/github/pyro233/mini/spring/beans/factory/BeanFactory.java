@@ -1,4 +1,6 @@
-package com.github.pyro233.mini.spring.beans;
+package com.github.pyro233.mini.spring.beans.factory;
+
+import com.github.pyro233.mini.spring.beans.BeansException;
 
 /**
  * @Author: tao.zhou

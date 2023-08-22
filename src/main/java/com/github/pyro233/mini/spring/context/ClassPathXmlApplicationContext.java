@@ -1,9 +1,9 @@
 package com.github.pyro233.mini.spring.context;
 
-import com.github.pyro233.mini.spring.beans.BeanFactory;
+import com.github.pyro233.mini.spring.beans.factory.BeanFactory;
 import com.github.pyro233.mini.spring.beans.BeansException;
-import com.github.pyro233.mini.spring.beans.SimpleBeanFactory;
-import com.github.pyro233.mini.spring.beans.XmlBeanDefinitionReader;
+import com.github.pyro233.mini.spring.beans.SimpleAutowireCapableBeanFactory;
+import com.github.pyro233.mini.spring.beans.xml.XmlBeanDefinitionReader;
 import com.github.pyro233.mini.spring.core.ClassPathXmlResource;
 
 /**
@@ -12,10 +12,10 @@ import com.github.pyro233.mini.spring.core.ClassPathXmlResource;
  */
 public class ClassPathXmlApplicationContext implements BeanFactory {
 
-    private SimpleBeanFactory simpleBeanFactory;
+    private SimpleAutowireCapableBeanFactory simpleBeanFactory;
 
     public ClassPathXmlApplicationContext(String fileName) {
-        simpleBeanFactory = new SimpleBeanFactory();
+        simpleBeanFactory = new SimpleAutowireCapableBeanFactory();
         final ClassPathXmlResource classPathXmlResource = new ClassPathXmlResource(fileName);
         final XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(simpleBeanFactory);
         xmlBeanDefinitionReader.loadBeanDefinitions(classPathXmlResource);

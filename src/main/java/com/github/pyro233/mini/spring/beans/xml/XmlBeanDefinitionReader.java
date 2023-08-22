@@ -1,5 +1,6 @@
-package com.github.pyro233.mini.spring.beans;
+package com.github.pyro233.mini.spring.beans.xml;
 
+import com.github.pyro233.mini.spring.beans.SimpleAutowireCapableBeanFactory;
 import com.github.pyro233.mini.spring.beans.config.CtorArg;
 import com.github.pyro233.mini.spring.beans.config.BeanDefinition;
 import com.github.pyro233.mini.spring.beans.config.CtorArgValues;
@@ -10,7 +11,6 @@ import com.github.pyro233.mini.spring.core.StringUtils;
 import org.dom4j.Element;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: tao.zhou
@@ -18,9 +18,9 @@ import java.util.Optional;
  */
 public class XmlBeanDefinitionReader {
 
-    private SimpleBeanFactory simpleBeanFactory;
+    private SimpleAutowireCapableBeanFactory simpleBeanFactory;
 
-    public XmlBeanDefinitionReader(SimpleBeanFactory simpleBeanFactory) {
+    public XmlBeanDefinitionReader(SimpleAutowireCapableBeanFactory simpleBeanFactory) {
         this.simpleBeanFactory = simpleBeanFactory;
     }
 
