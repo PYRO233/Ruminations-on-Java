@@ -1,5 +1,9 @@
 package com.github.pyro233.mini.spring.web;
 
+import com.github.pyro233.mini.spring.beans.BeansException;
+import com.github.pyro233.mini.spring.beans.annotation.Autowired;
+import com.github.pyro233.mini.spring.web.context.WebApplicationContext;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -27,23 +32,26 @@ public class DispatcherServlet extends HttpServlet {
 
     public static final String CONFIG_LOCATION_PARAM = "contextConfigLocation";
 
+    private WebApplicationContext webApplicationContext;
+
     private String contextConfigLocation;
 
     private List<String> packageNames = new ArrayList<>();
     private Map<String, ControllerInstance> controllerInstances = new HashMap<>();
     private List<String> controllerNames = new ArrayList<>();
 
-    private List<String> urlMappingNames = new ArrayList<>();
     // mapping: uri -> class, method
     private Map<String, ControllerMethod> mappingObjsMethods = new HashMap<>();
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         // (没实现，不想引入 web.xml)
+        webApplicationContext = (WebApplicationContext) servletConfig.getServletContext()
+                                    .getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        // ServletConfig 和 ServletContext initParameter 不一样
         contextConfigLocation = servletConfig.getInitParameter(CONFIG_LOCATION_PARAM);
         try {
-            final URL xmlPath = servletConfig.getServletContext()
-                                              .getResource(contextConfigLocation);
+            final URL xmlPath = servletConfig.getServletContext().getResource(contextConfigLocation);
             packageNames = XmlScanComponentHelper.getNodeValue(xmlPath);
             refresh();
         } catch (MalformedURLException e) {
@@ -88,11 +96,34 @@ public class DispatcherServlet extends HttpServlet {
             try {
                 final Class<?> clz = Class.forName(controllerName);
                 final Object obj = clz.newInstance();
+
+                populateBean(obj);
+
                 controllerInstances.put(controllerName, new ControllerInstance(clz, obj));
-            } catch (InstantiationException | ClassNotFoundException | IllegalAccessException e) {
+            } catch (InstantiationException | ClassNotFoundException | IllegalAccessException | BeansException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    // copy from SimpleAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInitialization
+    private Object populateBean(Object bean) throws BeansException {
+        final Class<?> clazz = bean.getClass();
+        final Field[] fields = clazz.getDeclaredFields();
+        for (Field field : fields) {
+            final boolean isAutowired = field.isAnnotationPresent(Autowired.class);
+            if (isAutowired) {
+                final String autowiredBeanName = field.getName();
+                final Object autowiredBean = webApplicationContext.getBean(autowiredBeanName);
+                field.setAccessible(true);
+                try {
+                    field.set(bean, autowiredBean);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bean;
     }
 
     private void initMapping() {
@@ -105,7 +136,6 @@ public class DispatcherServlet extends HttpServlet {
                 boolean isRequestMapping = method.isAnnotationPresent(RequestMapping.class);
                 if (isRequestMapping) {
                     String urlmapping = method.getAnnotation(RequestMapping.class).value();
-                    this.urlMappingNames.add(urlmapping);
                     mappingObjsMethods.put(urlmapping, new ControllerMethod(obj, method));
                 }
             }

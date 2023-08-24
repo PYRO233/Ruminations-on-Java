@@ -10,7 +10,7 @@ import com.github.pyro233.mini.spring.core.ClassPathXmlResource;
  * @Author: tao.zhou
  * @Date: 2023/8/18 23:02
  */
-public class ClassPathXmlApplicationContext implements BeanFactory {
+public class ClassPathXmlApplicationContext implements ApplicationContext {
 
     private SimpleAutowireCapableBeanFactory simpleBeanFactory;
 
@@ -22,8 +22,13 @@ public class ClassPathXmlApplicationContext implements BeanFactory {
     }
 
     // method getBean
+    @Override
     public Object getBean(String beanId) throws BeansException {
         return simpleBeanFactory.getBean(beanId);
     }
 
+    @Override
+    public BeanFactory getBeanFactory() {
+        return simpleBeanFactory;
+    }
 }
