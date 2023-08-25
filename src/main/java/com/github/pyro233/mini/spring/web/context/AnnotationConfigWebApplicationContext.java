@@ -5,7 +5,7 @@ import com.github.pyro233.mini.spring.beans.config.BeanDefinition;
 import com.github.pyro233.mini.spring.beans.factory.HierarchicalBeanFactory;
 import com.github.pyro233.mini.spring.beans.factory.ListableBeanFactory;
 import com.github.pyro233.mini.spring.context.ApplicationContext;
-import com.github.pyro233.mini.spring.web.DispatcherServlet;
+import com.github.pyro233.mini.spring.web.servlet.DispatcherServlet;
 
 import java.io.File;
 import java.net.URL;
