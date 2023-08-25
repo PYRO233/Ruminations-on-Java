@@ -2,7 +2,8 @@ package com.github.pyro233.mini.spring.beans;
 
 import com.github.pyro233.mini.spring.beans.annotation.Autowired;
 import com.github.pyro233.mini.spring.beans.config.BeanDefinition;
-import com.github.pyro233.mini.spring.beans.factory.AutowireCapableBeanFactory;
+import com.github.pyro233.mini.spring.beans.factory.BeanFactory;
+import com.github.pyro233.mini.spring.beans.factory.ConfigurableListableBeanFactory;
 import com.github.pyro233.mini.spring.core.StringUtils;
 
 import java.lang.reflect.Field;
@@ -15,8 +16,25 @@ import java.lang.reflect.Method;
  * @Author: tao.zhou
  * @Date: 2023/8/19 23:57
  */
-public class SimpleAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
+public class DefaultListableBeanFactory extends AbstractBeanFactory implements ConfigurableListableBeanFactory {
 
+    public DefaultListableBeanFactory() {
+    }
+
+    public DefaultListableBeanFactory(BeanFactory parentBeanFactory) {
+        setParentBeanFactory(parentBeanFactory);
+    }
+
+    @Override
+    public Object getBean(String beanName) throws BeansException {
+        final Object result = super.getBean(beanName);
+        if (result == null) {
+            return getParentBeanFactory().getBean(beanName);
+        }
+        return result;
+    }
+
+    @Override
     Object initializeBean(final String beanName, final Object bean, final BeanDefinition bd) throws BeansException {
         Object wrappedBean = bean;
         wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
@@ -28,6 +46,7 @@ public class SimpleAutowireCapableBeanFactory extends AbstractBeanFactory implem
     }
 
 
+    @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object bean, String beanName) throws BeansException {
         final Class<?> clazz = bean.getClass();
         final Field[] fields = clazz.getDeclaredFields();
@@ -47,6 +66,7 @@ public class SimpleAutowireCapableBeanFactory extends AbstractBeanFactory implem
         return bean;
     }
 
+    @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object bean, String beanName) {
         return bean;
     }
@@ -59,5 +79,10 @@ public class SimpleAutowireCapableBeanFactory extends AbstractBeanFactory implem
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return beanDefinitionNames.toArray(new String[0]);
     }
 }

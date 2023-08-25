@@ -6,11 +6,14 @@ import com.github.pyro233.mini.spring.beans.config.CtorArgValues;
 import com.github.pyro233.mini.spring.beans.config.PropertyValue;
 import com.github.pyro233.mini.spring.beans.config.PropertyValues;
 import com.github.pyro233.mini.spring.beans.factory.BeanFactory;
+import com.github.pyro233.mini.spring.beans.factory.ConfigurableListableBeanFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,9 +22,11 @@ import java.util.Map;
  * @Author: tao.zhou
  * @Date: 2023/8/19 23:57
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory, BeanDefinitionRegistry {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableListableBeanFactory, BeanDefinitionRegistry {
 
+    private BeanFactory parentBeanFactory;
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
+    protected final List<String> beanDefinitionNames = new ArrayList<>();
 
     // region BeanFactory
     @Override
@@ -43,6 +48,19 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return singleton;
     }
 
+    @Override
+    public BeanFactory getParentBeanFactory() {
+        return parentBeanFactory;
+    }
+
+    @Override
+    public void setParentBeanFactory(BeanFactory parentBeanFactory) {
+        if (this.parentBeanFactory != null && this.parentBeanFactory != parentBeanFactory) {
+            throw new RuntimeException("Already associated with parent BeanFactory: " + this.parentBeanFactory);
+        }
+        this.parentBeanFactory = parentBeanFactory;
+    }
+
     abstract Object initializeBean(final String beanName, final Object bean, final BeanDefinition bd) throws BeansException;
 
     // endregion BeanFactory
@@ -51,6 +69,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
     @Override
     public void registerBeanDefinition(String name, BeanDefinition bd) {
         beanDefinitionMap.put(name, bd);
+        beanDefinitionNames.add(name);
     }
     // endregion BeanFactory
 

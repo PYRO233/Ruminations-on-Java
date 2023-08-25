@@ -1,6 +1,6 @@
 package com.github.pyro233.mini.spring.beans.xml;
 
-import com.github.pyro233.mini.spring.beans.SimpleAutowireCapableBeanFactory;
+import com.github.pyro233.mini.spring.beans.DefaultListableBeanFactory;
 import com.github.pyro233.mini.spring.beans.config.CtorArg;
 import com.github.pyro233.mini.spring.beans.config.BeanDefinition;
 import com.github.pyro233.mini.spring.beans.config.CtorArgValues;
@@ -18,10 +18,10 @@ import java.util.List;
  */
 public class XmlBeanDefinitionReader {
 
-    private SimpleAutowireCapableBeanFactory simpleBeanFactory;
+    private DefaultListableBeanFactory defaultBeanFactory;
 
-    public XmlBeanDefinitionReader(SimpleAutowireCapableBeanFactory simpleBeanFactory) {
-        this.simpleBeanFactory = simpleBeanFactory;
+    public XmlBeanDefinitionReader(DefaultListableBeanFactory defaultBeanFactory) {
+        this.defaultBeanFactory = defaultBeanFactory;
     }
 
     // method loadBeanDefinitions with argument Resource
@@ -38,7 +38,7 @@ public class XmlBeanDefinitionReader {
             beanDefinition.setPropertyValues(getPropertyValues(element));
             beanDefinition.setInitMethodName(initMethodName);
 
-            simpleBeanFactory.registerBeanDefinition(beanId, beanDefinition);
+            defaultBeanFactory.registerBeanDefinition(beanId, beanDefinition);
         }
     }
 
