@@ -15,6 +15,8 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
+ * KV DB @see <a href="https://github.com/swiftma/program-logic/tree/master/src/shuo/laoma/file/c60">《Java编程的逻辑》</a>
+ * RandomAccessFile 的基本使用
  * @Author: tao.zhou
  * @Date: 2024/1/30 19:49
  */
@@ -25,11 +27,12 @@ public class BasicDBImpl implements BasicDB {
     // 元数据文件后缀，包括索引和空白空间数据
     public static final String META_SUFFIX = ".meta";
 
+    // 每个值占用长度固定为1024字节，前4个字节表示实际长度
     private static final int MAX_DATA_LENGTH = 1020;
     // 补白字节
     private static final byte[] ZERO_BYTES = new byte[MAX_DATA_LENGTH];;
 
-    // 索引信息，键->值在.data文件中的位置
+    // 索引信息，键->值 在 .data文件 中的位置
     private Map<String, Long> indexMap;
     // 空白空间，值为在.data文件中的位置
     private Queue<Long> gaps;
@@ -37,7 +40,7 @@ public class BasicDBImpl implements BasicDB {
     // 值数据文件
     RandomAccessFile db;
     // 元数据文件
-    private File metaFile;
+    private final File metaFile;
 
     public BasicDBImpl(String path, String name) throws IOException {
         File dataFile = new File(path + name + DATA_SUFFIX);
